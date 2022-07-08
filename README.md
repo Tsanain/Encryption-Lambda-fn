@@ -1,5 +1,5 @@
 # Encryption-Lambda-fn
-Encrypting string parameters in GET request using AWS Api gateway and lambda function using cdk python. Cryptography library is used for encryption. Encryption key is stored in env variables of lambda function. Imported a layer for cryptography library from <a href = "https://api.klayers.cloud//api/v2/p3.9/layers/latest/ap-south-1/json">here</a>
+Encrypting string parameters in GET request using AWS Api gateway and lambda function using cdk python. Cryptography library is used for encryption. Encryption key is stored in env variables of lambda function. Imported a layer for cryptography library from <a href = "https://api.klayers.cloud//api/v2/p3.9/layers/latest/ap-south-1/json">here</a>.
 
 ## Requirements
 
@@ -15,7 +15,7 @@ Encrypting string parameters in GET request using AWS Api gateway and lambda fun
 3. Run `cdk deploy`.
 4. Copy the api gateway link into postman under `GET` method.
 5. Get Api key from api gateway console and paste it in header with `x-api-key` as key and api key value as value.
-6. Enter string parameters to be encrypted and run the link
+6. Enter string parameters to be encrypted and run the link.
 
    ### Output
    
