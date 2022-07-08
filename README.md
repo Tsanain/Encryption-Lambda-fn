@@ -19,4 +19,4 @@ Encryption using AWS Api gateway and lambda function using cdk python. Cryptogra
 
    ### Output
    
-   <img src="![image](https://user-images.githubusercontent.com/89830533/177985463-d92819ce-90b7-44d2-bdd1-2d6dd905a937.png)" height = 70px width = 200px>
+   ![image](https://user-images.githubusercontent.com/89830533/177985463-d92819ce-90b7-44d2-bdd1-2d6dd905a937.png)
