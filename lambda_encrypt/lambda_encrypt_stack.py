@@ -40,7 +40,7 @@ class LambdaEncryptStack(Stack):
             ],
         )
 
-        a.add_method("GET", li, method_responses=[
+        a.add_method("POST", li, method_responses=[
                 _api.MethodResponse(
                     status_code="200", 
                 )

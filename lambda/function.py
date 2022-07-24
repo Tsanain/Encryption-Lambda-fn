@@ -4,7 +4,8 @@ from cryptography.fernet import Fernet
 
 
 def handler(event, context):
-    text = event['queryStringParameters']
+    
+    text = event['body']
     text = json.dumps(text, indent=2).encode('utf-8')
     
     encryptionKey = os.environ['encrytionKey']
