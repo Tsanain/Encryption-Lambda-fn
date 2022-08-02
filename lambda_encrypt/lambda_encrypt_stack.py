@@ -19,21 +19,41 @@ class LambdaEncryptStack(Stack):
 
         layer1 = _lambda.LayerVersion.from_layer_version_arn(self, "cryptography-layer", layer_version_arn="arn:aws:lambda:ap-south-1:770693421928:layer:Klayers-p39-cryptography:5")
 
-        lambda_func = _lambda.Function(
+        enc_lambda_func = _lambda.Function(
             self, 'lambda_encryption', runtime=_lambda.Runtime.PYTHON_3_9,
             code = _lambda.Code.from_asset('lambda'),
-            handler='function.handler',
+            handler='encryptor.handler',
             environment={
                 'encrytionKey': key
             },
             layers=[layer1]
         )
 
+        dec_lambda_func = _lambda.Function(
+            self, 'lambda_decryption', runtime=_lambda.Runtime.PYTHON_3_9,
+            code = _lambda.Code.from_asset('lambda'),
+            handler='decryptor.handler',
+            environment={
+                'encrytionKey': key
+            },
+            layers=[layer1]
+        )
+
+
         api = _api.RestApi(self, 'encryptionApi', rest_api_name='encryptionApi')
 
         encryptor = api.root.add_resource('encryptor')
 
-        li = _api.LambdaIntegration(lambda_func, proxy=True, integration_responses=[
+        decryptor = api.root.add_resource('decryptor')
+
+        li = _api.LambdaIntegration(enc_lambda_func, proxy=True, integration_responses=[
+                _api.IntegrationResponse(
+                    status_code="200",  
+                )
+            ],
+        )
+
+        li_dec = _api.LambdaIntegration(dec_lambda_func, proxy=True, integration_responses=[
                 _api.IntegrationResponse(
                     status_code="200",  
                 )
@@ -41,6 +61,13 @@ class LambdaEncryptStack(Stack):
         )
 
         encryptor.add_method("POST", li, method_responses=[
+                _api.MethodResponse(
+                    status_code="200", 
+                )
+            ], api_key_required=True
+        )
+
+        decryptor.add_method("POST", li_dec, method_responses=[
                 _api.MethodResponse(
                     status_code="200", 
                 )

@@ -1,14 +1,23 @@
 from cryptography.fernet import Fernet
 import json
+import os
 
-encryptionKey = "key here"
+def handler(event, context):
+    
+    text = event['body']
+    text = bytes(text, 'utf-8')
 
-encryptedData = b"data here"
+    encryptionKey = os.environ['encrytionKey']
 
-cryptor = Fernet(encryptionKey)
+    cryptor = Fernet(encryptionKey)
+    
+    decryptedData = cryptor.decrypt(text)
+    decryptedData = json.loads(decryptedData)
 
-decryptedData = cryptor.decrypt(encryptedData)
-
-decryptedData = json.loads(decryptedData)
-
-print(decryptedData)
+    return {
+        'statusCode': 200,
+        'headers': {
+            'Content-Type': 'application/json'
+        },
+        'body': decryptedData
+    }
