@@ -20,7 +20,7 @@ class LambdaEncryptStack(Stack):
         layer1 = _lambda.LayerVersion.from_layer_version_arn(self, "cryptography-layer", layer_version_arn="arn:aws:lambda:ap-south-1:770693421928:layer:Klayers-p39-cryptography:5")
 
         lambda_func = _lambda.Function(
-            self, 'lambda_trial', runtime=_lambda.Runtime.PYTHON_3_9,
+            self, 'lambda_encryption', runtime=_lambda.Runtime.PYTHON_3_9,
             code = _lambda.Code.from_asset('lambda'),
             handler='function.handler',
             environment={
@@ -29,9 +29,9 @@ class LambdaEncryptStack(Stack):
             layers=[layer1]
         )
 
-        api = _api.RestApi(self, 'TrialApi', rest_api_name='TrialApi')
+        api = _api.RestApi(self, 'encryptionApi', rest_api_name='encryptionApi')
 
-        a = api.root.add_resource('a')
+        encryptor = api.root.add_resource('encryptor')
 
         li = _api.LambdaIntegration(lambda_func, proxy=True, integration_responses=[
                 _api.IntegrationResponse(
@@ -40,7 +40,7 @@ class LambdaEncryptStack(Stack):
             ],
         )
 
-        a.add_method("POST", li, method_responses=[
+        encryptor.add_method("POST", li, method_responses=[
                 _api.MethodResponse(
                     status_code="200", 
                 )
